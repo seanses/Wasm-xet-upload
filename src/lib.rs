@@ -8,7 +8,7 @@ pub fn add_two_numbers(a: i32, b: i32) -> i32 {
     return a + b;
 }
 
-/// Read one byte from the file at a given offset. Returns the read byte or 0 if the file is empty
+/// Reads one byte from the file at a given offset. Returns the read byte or 0 if the file is empty
 /// See also https://github.com/Badel2/wasm-bindgen-file-reader-test
 #[wasm_bindgen]
 pub fn read_at_offset_sync(file: web_sys::File, offset: u64) -> u8 {
@@ -40,12 +40,7 @@ pub fn read_at_offset_sync(file: web_sys::File, offset: u64) -> u8 {
     }
 }
 
-/// Log a string to the browser's console
+/// Logs a string to the browser's console
 fn log_to_browser(log_msg: String) {
     console::log_1(&log_msg.into());
-}
-
-pub fn set_panic_hook() {
-    #[cfg(feature = "console_error_panic_hook")]
-    console_error_panic_hook::set_once();
 }
