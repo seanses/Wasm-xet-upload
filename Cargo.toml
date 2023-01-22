@@ -8,6 +8,7 @@ description = "Example for reading a local file with Wasm"
 license = "AGPL"
 repository = "https://gitlab.com/bullbytes/read_file_with_wasm"
 edition = "2021"
+readme = "README.md"
 
 [lib]
 crate-type = ["cdylib"]
