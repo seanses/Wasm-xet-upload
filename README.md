@@ -4,9 +4,12 @@ This example web application is a combination of [wasm_worker_interaction](https
 The application lets users choose a local file using [`input type="file"`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file). A function defined in `src/lib.rs` reads the first byte of the file and passes that byte to `www/index.js` which logs it to the browser console.
 
 # Build and run
-* Executing `build.sh` builds the application, calling `wasm-pack build --out-dir www/pkg --target no-modules`.
-* To run the application, start a web server in the directory `www`, using [`http`](https://crates.io/crates/https) for example.
-* Point your browser to the app: `firefox --new-window localhost:8000`
+* Execute `build.sh` to build the application.
+* To run the application, start a web server like [`http`](https://crates.io/crates/https) in the directory `www/`.
+* Fetch and run the app with your browser: `firefox --new-window localhost:8000`
+
+I used wasm-pack version 0.10.3 and stable rustc 1.66.1 to build it on Arch Linux 6.1.6.
 
 # Browser support
 Tested successfully with Firefox 109.0 and Chromium 109.0.5414.74.
+

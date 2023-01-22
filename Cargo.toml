@@ -26,4 +26,3 @@ version = "0.3.60"
 # Log to the browser console from Rust code
 features = [ "console" ]
 
-
