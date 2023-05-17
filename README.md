@@ -13,3 +13,5 @@ I used [`wasm-pack`](https://github.com/rustwasm/wasm-pack) version 0.10.3 and s
 # Browser support
 Tested successfully with Firefox 109.0 and Chromium 109.0.5414.74.
 
+# Related projects
+The project [Ana Carve](https://gitlab.com/bullbytes/ana-carve) uses the same approach for reading files. Ana Carve then searches the file for byte sequences that indicate the start or end of a JPG.
