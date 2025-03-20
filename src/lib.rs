@@ -98,17 +98,23 @@ impl CleanState {
 
         let mut chunk_idx = 0;
 
-        log_to_browser(format!("computing file verification entries"));
+        log_to_browser(format!(
+            "computing file verification entries, for {} entries",
+            self.file_info.len()
+        ));
         // Create the file verification stamp.
         let verification = self
             .file_info
             .iter()
             .map(|entry| {
+                log_to_browser(format!("{entry:?}"));
                 let n_chunks = (entry.chunk_index_end - entry.chunk_index_start) as usize;
+                log_to_browser(format!("{:?}", self.chunk_hashes));
                 let chunk_hashes: Vec<_> = self.chunk_hashes[chunk_idx..chunk_idx + n_chunks]
                     .iter()
                     .map(|(hash, _)| *hash)
                     .collect();
+                log_to_browser(format!("{chunk_hashes:?}"));
                 let range_hash = range_hash_from_chunks(&chunk_hashes);
                 chunk_idx += n_chunks;
 
@@ -116,6 +122,7 @@ impl CleanState {
             })
             .collect();
 
+        log_to_browser(format!("computing file verification entries done"));
         let fi = MDBFileInfo {
             metadata,
             segments: self.file_info,
@@ -240,6 +247,9 @@ fn process_chunks(cs: &mut CleanState, chunks: &[Chunk], shard: &mut MDBInMemory
         // Next round.
         cur_idx += 1;
     }
+
+    cs.chunk_hashes
+        .extend(chunks.iter().map(|c| (c.hash, c.data.len())));
 }
 
 fn register_new_xorb(xorb: RawXorbData, shard: &mut MDBInMemoryShard) {}
@@ -252,12 +262,14 @@ pub const VERIFICATION_KEY: [u8; 32] = [
 ];
 
 fn range_hash_from_chunks(chunks: &[MerkleHash]) -> MerkleHash {
+    log_to_browser(format!("range hash from chunks"));
     let combined: Vec<u8> = chunks
         .iter()
         .flat_map(|hash| hash.as_bytes().to_vec())
         .collect();
 
     // now apply hmac to hashes and return
+    log_to_browser(format!("blake3 range hash"));
     let range_hash = blake3::keyed_hash(&VERIFICATION_KEY, combined.as_slice());
 
     MerkleHash::from(range_hash.as_bytes())
